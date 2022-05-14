@@ -193,6 +193,10 @@ class Game:
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         pygame.mixer.music.pause()
+                        pauseFont = pygame.font.SysFont('calibri', 30)
+                        pauseLine = pauseFont.render("Paused! Press Enter to resume.", True, (255, 255, 255))
+                        self.surface.blit(pauseLine, pauseLine.get_rect(center = self.surface.get_rect().center))
+                        pygame.display.flip()
                         pause = True
 
                     if event.key == K_RETURN:
