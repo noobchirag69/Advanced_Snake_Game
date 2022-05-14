@@ -6,22 +6,30 @@ import random
 
 SIZE = 40
 
+# Class for the apple
 class Apple:
+
+    # Initialize Apple
     def __init__(self, parent_screen):
         self.parent_screen = parent_screen
         self.image = pygame.image.load("Images/apple.png").convert()
         self.x = SIZE * random.randint(1, 24)
         self.y = SIZE * random.randint(1, 19)
 
+    # Draw Apple on screen
     def draw(self):
         self.parent_screen.blit(self.image, (self.x, self.y))
         pygame.display.flip()
 
+    # Function to move apple when eaten
     def move(self):
         self.x = random.randint(1, 24) * SIZE
         self.y = random.randint(1, 19) * SIZE
 
+# Class for the snake
 class Snake:
+
+    # Initialize Snake
     def __init__(self, parent_screen, length):
         
         self.parent_screen = parent_screen
@@ -32,6 +40,7 @@ class Snake:
         self.x = [SIZE] * length
         self.y = [SIZE] * length
 
+    # Function to  Move snake
     def move_up(self):
         self.direction = 'up'
 
@@ -68,47 +77,60 @@ class Snake:
 
         pygame.display.flip()
 
+    # Function to increase length of the snake when it eats the apple
     def increaseLength(self):
         self.length += 1
         self.x.append(-1)
         self.y.append(-1)
 
+# Class for the game
 class Game:
+
+    # Initialize the game
     def __init__(self):
         pygame.init()
         pygame.display.set_caption("Snake Game by Chirag Chakraborty")
 
+        # Initialize background music
         pygame.mixer.init()
         self.playBackgroundMusic()
 
+        # Setting the window
         self.surface = pygame.display.set_mode((1000, 800))
         self.surface.fill((77, 34, 52))
 
+        # Draw the snake
         self.snake = Snake(self.surface, 3)
         self.snake.draw()
         
+        # Draw the apple
         self.apple = Apple(self.surface)
         self.apple.draw()
 
+    # Function to add background music
     def playBackgroundMusic(self):
         pygame.mixer.music.load('Music/tarzan.mp3')
         pygame.mixer.music.play(-1, 0)
 
+    # Function for collision
     def collision(self, x1, y1, x2, y2):
         if x1 >= x2 and x1 < x2 + SIZE:
             if y1 >= y2 and y1 < y2 + SIZE:
                 return True
         return False
 
+    # Function for background image
     def renderBackground(self):
         bg = pygame.image.load("Images/background.jpg")
         self.surface.blit(bg, (0, 0))
 
+    # Function to display score
     def displayScore(self):
         font = pygame.font.SysFont('arial', 30)
         score = font.render(f"Score: {self.snake.length - 3}", True, (0, 0, 0))
         self.surface.blit(score, (850, 10))
 
+    # Playing logic
     def play(self):
         self.renderBackground()
         self.snake.walk()
@@ -126,6 +148,7 @@ class Game:
             if self.collision(self.snake.x[0], self.snake.y[0], self.snake.x[i], self.snake.y[i]):
                 raise "Collision Occured"
     
+    # Game Over logic
     def showGameOver(self):
         self.renderBackground()
         font = pygame.font.SysFont('arial', 30)
@@ -136,10 +159,12 @@ class Game:
         pygame.mixer.music.pause()
         pygame.display.flip()
 
+    # Reset game
     def reset(self):
         self.snake = Snake(self.surface, 3)
         self.apple = Apple(self.surface)
 
+    # Running logic
     def run(self):
         running = True
         pause = False
@@ -176,9 +201,10 @@ class Game:
                 pause = True
                 self.reset()
                 
-
+            
             time.sleep(0.25)
 
+# Main function
 if __name__ == "__main__":
     game = Game()
     game.run()
