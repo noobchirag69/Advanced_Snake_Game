@@ -225,7 +225,7 @@ class Game:
                 self.reset()
                 
 
-            time.sleep(0.25)
+            time.sleep(0.1)
 
 # Main function
 if __name__ == "__main__":
