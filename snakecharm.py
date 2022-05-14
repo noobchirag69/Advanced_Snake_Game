@@ -158,27 +158,24 @@ class Game:
         for i in range(3, self.snake.length):
             if self.collision(self.snake.x[0], self.snake.y[0], self.snake.x[i], self.snake.y[i]):
                 self.playSound("Game_Over")
-                raise "Collision Occured"
+                raise ValueError("Game Over")
 
         # Snake crossing border
-        if self.snake.x[0] <= 0 or self.snake.x[0] >= 1000:
-            self.playSound("Game_Over")
-            raise "Hit Window"
-        if self.snake.y[0] <= 0 or self.snake.y[0] >= 800:
-            self.playSound("Game_Over")
-            raise "Hit Window"
+        if not (0 <= self.snake.x[0] <= 1000 and 0 <= self.snake.y[0] <= 800):
+            self.playSound('Game_Over')
+            raise ValueError("Game Over")
         
 
     # Function to display score
     def displayScore(self):
-        font = pygame.font.SysFont('arial', 30)
+        font = pygame.font.SysFont('calibri', 30)
         score = font.render(f"Score: {self.snake.length - 3}", True, (255, 255, 255))
         self.surface.blit(score, (850, 10))
     
     # Game Over logic
     def showGameOver(self):
         self.renderBackground()
-        font = pygame.font.SysFont('arial', 30)
+        font = pygame.font.SysFont('calibri', 30)
         line1 = font.render(f"Game is over! Your score is {self.snake.length - 3}.", True, (255, 255, 255))
         self.surface.blit(line1, (300, 300))
         line2 = font.render("To play again press Enter.", True, (255, 255, 255))
@@ -219,7 +216,7 @@ class Game:
                 if not pause:
                     self.play()
 
-            except Exception as e:
+            except ValueError:
                 self.showGameOver()
                 pause = True
                 self.reset()
