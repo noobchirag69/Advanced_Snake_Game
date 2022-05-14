@@ -160,7 +160,6 @@ class Game:
                 self.playSound("Game_Over")
                 raise "Collision Occured"
 
-        """
         # Snake crossing border
         if self.snake.x[0] <= 0 or self.snake.x[0] >= 1000:
             self.playSound("Game_Over")
@@ -168,7 +167,6 @@ class Game:
         if self.snake.y[0] <= 0 or self.snake.y[0] >= 800:
             self.playSound("Game_Over")
             raise "Hit Window"
-        """
         
 
     # Function to display score
